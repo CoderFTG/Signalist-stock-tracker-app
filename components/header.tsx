@@ -4,7 +4,7 @@ import Image from 'next/image'
 import NavItems from './navItems'
 import UserDropdown from './userDropdown'
 
-function header() {
+function header({user} : {user : User}) {
   return (
     <header className='sticky top-0 header'>
         <div className='container header-wrapper'>
@@ -15,7 +15,7 @@ function header() {
             <nav className='hidden sm:block '>
                 <NavItems />
             </nav>
-            <UserDropdown />
+            <UserDropdown user = {user} />
         </div>
 
     </header>

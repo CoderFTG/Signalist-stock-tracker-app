@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import InputField from '@/components/forms/inputField';
 import FooterLink from '@/components/forms/footerLink';
+import {signInWithEmail} from "@/lib/actions/auth.actions";
+import {toast} from "sonner";
 
 import {useRouter} from "next/navigation";
 
@@ -22,11 +24,23 @@ const SignIn = () => {
     });
 
     const onSubmit = async (data: SignInFormData) => {
+        console.log('Form submitted with data:', data);
         try {
-            console.log('submitting...');
+            const result = await signInWithEmail(data);
+            console.log('Sign in result:', result);
+            if(result.success) {
+                toast.success('Signed in successfully!');
+                router.push('/');
+            } else {
+                toast.error('Sign in failed', {
+                    description: result.error || 'Failed to sign in. Please check your credentials and try again.'
+                });
+            }
         } catch (e) {
-            console.error(e);
-            
+            console.error('Sign in error:', e);
+            toast.error('Sign in failed', {
+                description: e instanceof Error ? e.message : 'Failed to sign in. Please try again.'
+            });
         }
     }
 
@@ -34,14 +48,25 @@ const SignIn = () => {
         <>
             <h1 className="form-title">Welcome back</h1>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit, (errors) => {
+                console.log('Form validation errors:', errors);
+                toast.error('Please fix the form errors', {
+                    description: 'Some fields have validation errors. Please check and try again.'
+                });
+            })} className="space-y-5">
                 <InputField
                     name="email"
                     label="Email"
-                    placeholder="contact@jsmastery.com"
+                    placeholder="johndoe@gmail.com"
                     register={register}
                     error={errors.email}
-                    validation={{ required: 'Email is required', pattern: /^\w+@\w+\.\w+$/ }}
+                    validation={{ 
+                        required: 'Email is required', 
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: 'Please enter a valid email address'
+                        }
+                    }}
                 />
 
                 <InputField
@@ -51,7 +76,13 @@ const SignIn = () => {
                     type="password"
                     register={register}
                     error={errors.password}
-                    validation={{ required: 'Password is required', minLength: 8 }}
+                    validation={{ 
+                        required: 'Password is required', 
+                        minLength: {
+                            value: 8,
+                            message: 'Password must be at least 8 characters'
+                        }
+                    }}
                 />
 
                 <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
