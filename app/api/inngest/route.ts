@@ -2,10 +2,11 @@ import {serve} from "inngest/next";
 import {inngest} from "@/lib/inngest/client";
 import { sendDailyNewsSummary, sendSignUpEmail } from "@/lib/inngest/function";
 
-export const dynamic = 'force-dynamic';
+
+export const runtime = "nodejs"; 
 
 
-export const {GET, POST, PUT} = serve({
+export const {GET, POST} = serve({
     client: inngest,
     functions: [sendSignUpEmail, sendDailyNewsSummary]
 })
