@@ -1,3 +1,8 @@
+if (process.env.NEXT_PHASE === "phase-production-build") {
+    throw new Error("🚨 MongoDB was accessed during Next.js build");
+  }
+
+
 import mongoose from "mongoose";
 
 const MONGODB_URL = process.env.MONGODB_URL;
