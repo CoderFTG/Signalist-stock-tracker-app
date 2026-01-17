@@ -6,7 +6,7 @@ import { sendDailyNewsSummary, sendSignUpEmail } from "@/lib/inngest/function";
 export const runtime = "nodejs"; 
 
 
-export const {GET, POST} = serve({
+export const {GET, POST, PUT} = serve({
     client: inngest,
     functions: [sendSignUpEmail, sendDailyNewsSummary]
 })
