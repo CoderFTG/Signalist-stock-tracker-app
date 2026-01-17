@@ -9,6 +9,8 @@ import {toast} from "sonner";
 
 import {useRouter} from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
 const SignIn = () => {
     const router = useRouter()
     const {
