@@ -3,7 +3,7 @@
 import { connectToDatabase } from '@/database/mongoose';
 import { Watchlist } from '@/database/models/watchlist.model';
 import { revalidatePath } from 'next/cache';
-import { auth } from '../better-auth/auth';
+import { getAuth } from '../better-auth/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getStocksDetails } from './finhub.actions';
@@ -35,6 +35,9 @@ export async function getWatchlistSymbolsByEmail(email: string): Promise<string[
 // Add stock to watchlist
 export const addToWatchlist = async (symbol: string, company: string) => {
   try {
+    await connectToDatabase();
+
+    const auth = await getAuth();
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -70,6 +73,9 @@ export const addToWatchlist = async (symbol: string, company: string) => {
 // Remove stock from watchlist
 export const removeFromWatchlist = async (symbol: string) => {
   try {
+    await connectToDatabase();
+
+    const auth = await getAuth();
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -92,6 +98,9 @@ export const removeFromWatchlist = async (symbol: string) => {
 // Get user's watchlist
 export const getUserWatchlist = async () => {
   try {
+    await connectToDatabase();
+
+    const auth = await getAuth();
     const session = await auth.api.getSession({
       headers: await headers(),
     });
@@ -111,6 +120,9 @@ export const getUserWatchlist = async () => {
 // Get user's watchlist with stock data
 export const getWatchlistWithData = async () => {
   try {
+    await connectToDatabase();
+    
+    const auth = await getAuth();
     const session = await auth.api.getSession({
       headers: await headers(),
     });
