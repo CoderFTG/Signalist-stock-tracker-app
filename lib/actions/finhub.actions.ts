@@ -3,7 +3,7 @@
 import { getDateRange, validateArticle, formatArticle, formatPrice, formatMarketCapValue, formatChangePercent } from '@/lib/utils';
 import { POPULAR_STOCK_SYMBOLS } from '@/lib/constants';
 import { cache } from 'react';
-import { auth } from '../better-auth/auth';
+import { getAuth } from '../better-auth/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getWatchlistSymbolsByEmail } from './watchlist.actions';
@@ -105,6 +105,7 @@ export async function getNews(symbols?: string[]): Promise<MarketNewsArticle[]> 
 export const searchStocks = cache(
   async (query?: string): Promise<StockWithWatchlistStatus[]> => {
     try {
+      const auth = await getAuth();
       const session = await auth.api.getSession({
         headers: await headers(),
       });
