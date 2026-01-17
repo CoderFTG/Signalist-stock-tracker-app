@@ -1,4 +1,5 @@
-
+ <h3 align="center">Stock Market App — Alerts, Charts, AI Insights</h3>
+  
   <div>
     <img src="https://img.shields.io/badge/-Next.js-black?style=for-the-badge&logoColor=white&logo=next.js&color=black"/>
     <img src="https://img.shields.io/badge/-Better Auth-black?style=for-the-badge&logoColor=white&logo=betterauth&color=black"/>
@@ -12,7 +13,7 @@
 
   </div>
 
-  <h3 align="center">Stock Market App — Alerts, Charts, AI Insights</h3>
+
 
 
 ## 📋 <a name="table">Table of Contents</a>
